@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Netflix - Oturum Aç</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        background-color: #000;
+        color: #fff;
+        min-height: 100vh;
+      }
+
+      .container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* Background */
+      .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+      }
+
+      .background img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .background-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      /* Netflix Logo */
+      .netflix-logo {
+        position: absolute;
+        top: 24px;
+        left: 150px;
+        z-index: 20;
+      }
+
+      .netflix-logo svg {
+        height: 40px;
+        fill: #e50914;
+      }
+
+      /* Main Content */
+      .main-content {
+        position: relative;
+        z-index: 20;
+        display: flex;
+        justify-content: center;
+        padding-top: 96px;
+        padding-bottom: 64px;
+        flex: 1;
+      }
+
+      /* Login Form Container */
+      .login-container {
+        width: 100%;
+        max-width: 384px;
+        margin: 0 16px;
+      }
+
+      .login-form {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        border-radius: 8px;
+        padding: 32px;
+      }
+
+      .login-title {
+        color: #fff;
+        font-size: 30px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      /* Form Elements */
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-input {
+        width: 100%;
+        height: 48px;
+        background: rgba(31, 41, 55, 0.8);
+        border: 1px solid #4b5563;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 14px;
+        padding: 8px 12px;
+        outline: none;
+        transition: all 0.2s;
+      }
+
+      .form-input::placeholder {
+        color: #9ca3af;
+      }
+
+      .form-input:focus {
+        background: rgba(55, 65, 81, 0.8);
+        border-color: #fff;
+      }
+
+      .btn {
+        width: 100%;
+        height: 44px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 16px;
+      }
+
+      .btn-primary {
+        background: #e50914;
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background: #b20710;
+      }
+
+      .btn-secondary {
+        background: rgba(75, 85, 99, 0.7);
+        color: #fff;
+        font-weight: 500;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(107, 114, 128, 0.7);
+      }
+
+      .divider {
+        text-align: center;
+        padding: 12px 0;
+        color: #9ca3af;
+        font-size: 14px;
+      }
+
+      .link {
+        color: #fff;
+        text-decoration: underline;
+        font-size: 14px;
+        text-align: center;
+        padding: 12px 0;
+        cursor: pointer;
+      }
+
+      .link:hover {
+        text-decoration: none;
+      }
+
+      /* Info text for sign-in code */
+      .info-text {
+        text-align: center;
+        color: #9ca3af;
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
+
+      /* Checkbox */
+      .checkbox-container {
+        display: flex;
+        align-items: flex-start;
+        margin-top: 20px;
+        gap: 8px;
+      }
+
+      .checkbox {
+        margin-top: 2px;
+      }
+
+      .checkbox-label {
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      /* Terms text */
+      .terms-text {
+        margin-top: 32px;
+        font-size: 14px;
+        color: #d1d5db;
+        line-height: 1.4;
+      }
+
+      .terms-text p {
+        margin-bottom: 12px;
+      }
+
+      .terms-link {
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .terms-link:hover {
+        text-decoration: underline;
+      }
+
+      .captcha-link {
+        color: #60a5fa;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .captcha-link:hover {
+        text-decoration: underline;
+      }
+
+      /* Footer */
+      .footer-spacing {
+        height: 32px;
+        background: #000;
+      }
+
+      .footer {
+        background: rgba(0, 0, 0, 0.9);
+        border-top: 1px solid #374151;
+        padding: 48px 0;
+      }
+
+      .footer-content {
+        color: #9ca3af;
+        font-size: 14px;
+        padding-left: 150px;
+      }
+
+      .footer-phone {
+        margin-bottom: 32px;
+      }
+
+      .footer-links {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px 80px;
+        max-width: 768px;
+        margin-bottom: 32px;
+      }
+
+      .footer-link {
+        color: #9ca3af;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .footer-link:hover {
+        text-decoration: underline;
+      }
+
+      .language-selector {
+        background: transparent;
+        border: 1px solid #4b5563;
+        color: #9ca3af;
+        font-size: 14px;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: border-color 0.2s;
+      }
+
+      .language-selector:hover {
+        border-color: #fff;
+      }
+
+      .language-selector option {
+        background: #000;
+      }
+
+      /* Hidden class for form switching */
+      .hidden {
+        display: none;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .netflix-logo {
+          left: 24px;
+        }
+
+        .footer-content {
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+
+        .footer-links {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px 16px;
+        }
+
+        .login-form {
+          padding: 24px;
+        }
+
+        .login-title {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Background -->
+      <div class="background">
+        <img
+          src="https://assets.nflxext.com/ffe/siteui/vlv3/7968847f-3da9-44b3-8bbb-13a46579881f/web/TR-tr-20250609-TRIFECTA-perspective_e741000a-0069-4881-830b-e86652266f30_large.jpg"
+          alt="Netflix Background"
+        />
+        <div class="background-overlay"></div>
+      </div>
+
+      <!-- Netflix Logo -->
+      <div class="netflix-logo">
+        <svg viewBox="0 0 111 30" role="img" aria-label="Netflix">
+          <g>
+            <path
+              d="M105.06233,14.2343748 L110.999156,30 C109.249227,29.7497422 107.500234,29.4366857 105.718437,29.1554972 L102.374168,20.4686475 L98.9371075,28.4375293 C97.2499766,28.1563408 95.5928391,28.061674 93.9057081,27.8432843 L99.9372012,14.0931671 L94.4680851,-5.68434189e-14 L99.5313525,-5.68434189e-14 L102.593495,7.87421502 L105.874965,-5.68434189e-14 L110.999156,-5.68434189e-14 L105.06233,14.2343748 Z M90.4686475,-5.68434189e-14 L85.8749649,-5.68434189e-14 L85.8749649,27.2499766 C87.3746368,27.3437061 88.9371075,27.4055675 90.4686475,27.5930265 L90.4686475,-5.68434189e-14 Z M81.9055207,26.93692 C77.7186241,26.6557316 73.5307901,26.4064111 69.250164,26.3117443 L69.250164,-5.68434189e-14 L73.9366389,-5.68434189e-14 L73.9366389,21.8745899 C76.6248008,21.9373887 79.3120255,22.1557784 81.9055207,22.2804387 L81.9055207,26.93692 Z M64.2496954,10.6561065 L64.2496954,15.3435186 L57.8442216,15.3435186 L57.8442216,25.9996251 L53.2186709,25.9996251 L53.2186709,-5.68434189e-14 L66.3436123,-5.68434189e-14 L66.3436123,4.68741213 L57.8442216,4.68741213 L57.8442216,10.6561065 L64.2496954,10.6561065 Z M45.3435186,4.68741213 L45.3435186,26.2498828 C43.7810479,26.2498828 42.1876465,26.2498828 40.6561065,26.3117443 L40.6561065,4.68741213 L35.8121661,4.68741213 L35.8121661,-5.68434189e-14 L50.2183897,-5.68434189e-14 L50.2183897,4.68741213 L45.3435186,4.68741213 Z M30.749836,15.5928391 C28.687787,15.5928391 26.2498828,15.5928391 24.4999531,15.6875059 L24.4999531,22.6562939 C27.2499766,22.4678976 30,22.2495079 32.7809542,22.1557784 L32.7809542,26.6557316 L19.812541,27.6876933 L19.812541,-5.68434189e-14 L32.7809542,-5.68434189e-14 L32.7809542,4.68741213 L24.4999531,4.68741213 L24.4999531,10.9991564 C26.3126816,10.9991564 29.0936358,10.9054269 30.749836,10.9054269 L30.749836,15.5928391 Z M4.78114163,12.9684132 L4.78114163,29.3429562 C3.09401069,29.5313525 1.59340144,29.7497422 0,30 L0,-5.68434189e-14 L4.4690224,-5.68434189e-14 L10.562377,17.0315868 L10.562377,-5.68434189e-14 L15.2497891,-5.68434189e-14 L15.2497891,28.061674 C13.5935889,28.3437998 11.906458,28.4375293 10.1246602,28.6868498 L4.78114163,12.9684132 Z"
+            />
+          </g>
+        </svg>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="login-container">
+          <div class="login-form">
+            <h1 class="login-title">Oturum Aç</h1>
+
+            <form id="loginForm">
+              <!-- Regular Login Form -->
+              <div id="regularForm">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="E-posta veya cep telefonu numarası"
+                    id="email"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-input"
+                    placeholder="Parola"
+                    id="password"
+                    required
+                  />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Oturum Aç</button>
+
+                <div class="divider">VEYA</div>
+
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="useSignInCode"
+                >
+                  Oturum Açma Kodu Kullan
+                </button>
+
+                <div class="link" id="forgotPassword">
+                  Parolayı mı unuttunuz?
+                </div>
+              </div>
+
+              <!-- Sign In Code Form -->
+              <div id="signInCodeForm" class="hidden">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="E-posta veya cep telefonu numarası"
+                    id="emailCode"
+                    required
+                  />
+                </div>
+
+                <div class="info-text">
+                  Mesaj veya veri ücretleri uygulanabilir
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                  Oturum Açma Kodu Gönder
+                </button>
+
+                <div class="divider">VEYA</div>
+
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="usePassword"
+                >
+                  Parolayı Kullan
+                </button>
+
+                <div class="link" id="forgotEmailPhone">
+                  E-posta Adresini veya Telefon Numarasını mı Unuttunuz?
+                </div>
+              </div>
+            </form>
+
+            <!-- Remember Me Checkbox -->
+            <div class="checkbox-container">
+              <input type="checkbox" class="checkbox" id="rememberMe" />
+              <label for="rememberMe" class="checkbox-label"
+                >Beni hatırla</label
+              >
+            </div>
+
+            <!-- Terms Text -->
+            <div class="terms-text">
+              <p>
+                Netflix'e katılmak ister misiniz?
+                <a href="#" class="terms-link">Şimdi kaydolun</a>.
+              </p>
+              <p>
+                Bu sayfa robot olmadığınızı kanıtlamak için Google reCAPTCHA
+                tarafından korunuyor.
+                <a href="#" class="captcha-link">Daha fazla bilgi alın</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Spacing -->
+    <div class="footer-spacing"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-content">
+        <p class="footer-phone">
+          Sorularınız mı var? 0850-390-7444 numaralı telefonu (ücretsiz) arayın
+        </p>
+
+        <div class="footer-links">
+          <a href="#" class="footer-link">SSS</a>
+          <a href="#" class="footer-link">Yardım Merkezi</a>
+          <a href="#" class="footer-link">Kullanım Koşulları</a>
+          <a href="#" class="footer-link">Gizlilik</a>
+          <a href="#" class="footer-link">Çerez Tercihleri</a>
+          <a href="#" class="footer-link">Kurumsal Bilgiler</a>
+        </div>
+
+        <div>
+          <select class="language-selector">
+            <option value="tr">🌐 Türkçe</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Form switching functionality
+      const useSignInCodeBtn = document.getElementById("useSignInCode");
+      const usePasswordBtn = document.getElementById("usePassword");
+      const regularForm = document.getElementById("regularForm");
+      const signInCodeForm = document.getElementById("signInCodeForm");
+
+      useSignInCodeBtn.addEventListener("click", function () {
+        regularForm.classList.add("hidden");
+        signInCodeForm.classList.remove("hidden");
+      });
+
+      usePasswordBtn.addEventListener("click", function () {
+        signInCodeForm.classList.add("hidden");
+        regularForm.classList.remove("hidden");
+      });
+
+      // Form submission
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const isSignInCodeForm = !signInCodeForm.classList.contains("hidden");
+
+          if (isSignInCodeForm) {
+            const email = document.getElementById("emailCode").value;
+            console.log("Sign in code request for:", email);
+            alert("Oturum açma kodu gönderildi: " + email);
+          } else {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const rememberMe = document.getElementById("rememberMe").checked;
+
+            console.log("Login attempt:", { email, password, rememberMe });
+            alert("Giriş denemesi: " + email);
+          }
+        });
+
+      // Link handlers
+      document
+        .getElementById("forgotPassword")
+        .addEventListener("click", function () {
+          alert("Parola sıfırlama sayfasına yönlendirileceksiniz.");
+        });
+
+      document
+        .getElementById("forgotEmailPhone")
+        .addEventListener("click", function () {
+          alert("E-posta/telefon kurtarma sayfasına yönlendirileceksiniz.");
+        });
+
+      // Terms links
+      document
+        .querySelectorAll(".terms-link, .captcha-link")
+        .forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            console.log("Link clicked:", this.textContent);
+          });
+        });
+
+      // Footer links
+      document.querySelectorAll(".footer-link").forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          console.log("Footer link clicked:", this.textContent);
+        });
+      });
+    </script>
+  </body>
+</html>
