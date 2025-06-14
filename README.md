@@ -32,7 +32,7 @@ Modern web teknolojileriyle geliştirilmiş Netflix ana sayfa ve giriş sayfası
 
 1. Repoyu klonlayın
 ```bash
-git clone https://github.com/kullaniciadi/netflix-clone.git
+git clone https://github.com/dansepiol/netflix-clone.git
 ```
 
 2. Proje dizinine gidin
@@ -41,13 +41,6 @@ cd netflix-clone
 ```
 
 3. index.html dosyasını bir tarayıcıda açın
-
-## 📋 Yapılacaklar
-
-- [ ] Dark/Light tema desteği
-- [ ] Daha fazla animasyon
-- [ ] Backend entegrasyonu
-- [ ] Daha fazla sayfanın eklenmesi
 
 ## 🤝 Katkıda Bulunma
 
@@ -67,4 +60,4 @@ Bu proje eğitim amaçlıdır ve Netflix'in resmi ürünü değildir. Tüm hakla
 
 ## 📞 İletişim
 
-Sorularınız için: [email@example.com](mailto:email@example.com)
+Sorularınız için: [dansep10l@proton.me](dansep10l@proton.me)
